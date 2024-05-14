@@ -1,0 +1,35 @@
+bootstrap install
+
+bootstrap icons 
+
+==============================================================
+props - 
+events - 
+variable -  state variable 
+
+functional components - 
+ state - useState() => react hooks 
+ react hooks meaning nothing but function for specific task. We can use hooks in functional components only.
+ React 16.8 in February 2019
+======================================================
+
+Fragment - 
+wrapper 
+React.Fragment 
+Fragment => import on top 
+<></> => shorthand of React.Fragment
+
+ ======================================================
+ children props 
+ defaultProps 
+ propsTypes 
+ =================================================
+ form handling 
+ =========================================
+condition rendering 
+==========================================
+list (array) rendering 
+==================================================
+CSS 
+================================================
+

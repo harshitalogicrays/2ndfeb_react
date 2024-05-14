@@ -1,0 +1,12 @@
+rfce - function comop
+rafc - arrow function 
+
+
+  <PropsDemoinFun username="Ram" address="Pune"/> => username and address are known as props (properties)
+
+props = {username:"Ram",address:"Pune"}
+
+
+function aeturdd(a,b){rn()}
+
+addd(2,3)
