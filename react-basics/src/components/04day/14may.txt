@@ -1,1 +1,12 @@
-conditional rendering -
+conditional rendering - 
+1. ternary operator - ?: (condition ? true : false )
+2.  short circuit operator  ( && ) simple if => (condition && true)
+3. if else 
+4. javascript variable 
+
+=======================================================
+list rendering 
+simple array 
+array of object 
+=======================================================
+css in react 
