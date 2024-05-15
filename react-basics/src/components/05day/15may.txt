@@ -1,0 +1,20 @@
+list rendering -
+
+let arr = [3,65,7,8,9,4,12,2,9]
+
+let arr1= [{},{},{},{}] 
+
+let products = [ 
+        {id:101,name:'',price:3000, stock:10,image:''},
+        {id:101,name:'',price:3000, stock:10,image:''},
+        {id:101,name:'',price:3000, stock:10,image:''},
+]
+
+products[0]
+products[0].id
+
+=============================================================
+App - ProductList
+ProductList -> array import 
+        ProductItems  (array as a props) -  map 
+            ProductData - card 

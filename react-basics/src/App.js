@@ -11,6 +11,9 @@ import RegisterForm from './components/03day/RegisterForm';
 import Form1 from './components/03day/Form1';
 import Form2 from './components/03day/Form2';
 import ConditionalRendering from './components/04day/ConditionalRendering';
+import Listrendering from './components/05day/Listrendering';
+import ProductRenderning from './components/05day/ProductRenderning';
+import ProductList from './components/05day/ProductList';
 
 function App() {
   let a="hello"
@@ -46,12 +49,18 @@ function App() {
       {/* <Form1/> */}
       {/* <Form2/> */}
 
-      <button type="button" class="btn btn-primary"  onClick={()=>setIsLoggedIn(!isLoggedIn)}>
+      {/* <button type="button" class="btn btn-primary"  onClick={()=>setIsLoggedIn(!isLoggedIn)}>
         
         {isLoggedIn ? "Logout" : "Login"}
       </button>
       
-      <ConditionalRendering isLoggedIn={isLoggedIn} username="Happy"/>
+      <ConditionalRendering isLoggedIn={isLoggedIn} username="Happy"/> */}
+
+      {/* <Listrendering/> */}
+
+      {/* <ProductRenderning/> */}
+
+      <ProductList/>
     </div>
   );
 }
