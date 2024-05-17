@@ -18,3 +18,4 @@ App - ProductList
 ProductList -> array import 
         ProductItems  (array as a props) -  map 
             ProductData - card 
+===================================

@@ -1,0 +1,63 @@
+Form Validations -
+function fun(){
+    return {}
+}
+
+let res = fun()  // res= {}
+
+==============================================================
+Form Validation - react hook form  (HTML Valdiations - required, minlength,maxlength, min,max etc.)
+                  formik library 
+
+=============================================================
+CSS in React -
+1. inline css 
+<h1 style="color:red;background-color:yellow"></h1> 
+In react => <h1 style={{color:'red',backgroundColor:'yellow'}}></h1>
+2. css variable - 
+let styles = {color:'red',backgroundColor:'yellow'}
+<h1 style={styles}></h1>
+
+3. css file -  .css file 
+import 'path'
+
+when we are importing css file in one component then all children component can access that css file directly without importing it.
+
+App ---> CSSinReact---> Inlinecssdemo
+                        Cssvariable
+                        Globalcss 
+
+4. css module file -  .module.css 
+import aliasname from 'path'
+
+<h1 className={aliasname.classname}></h1>
+
+5. bootstrap 
+6. react-bootstrap 
+7. styled-components 
+8. material 
+9. tailwind 
+
+==========================================================
+form design -
+product
+
+name , price, brand, category -> dropdown , stock , description, image upload 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -14,6 +14,8 @@ import ConditionalRendering from './components/04day/ConditionalRendering';
 import Listrendering from './components/05day/Listrendering';
 import ProductRenderning from './components/05day/ProductRenderning';
 import ProductList from './components/05day/ProductList';
+import FormValidations from './components/06day/FormValidations';
+import CSSinReact from './components/06day/CSSinReact';
 
 function App() {
   let a="hello"
@@ -60,7 +62,11 @@ function App() {
 
       {/* <ProductRenderning/> */}
 
-      <ProductList/>
+      {/* <ProductList/> */}
+      
+      {/* <FormValidations/> */}
+      <CSSinReact/>
+
     </div>
   );
 }
