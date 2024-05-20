@@ -16,6 +16,9 @@ import ProductRenderning from './components/05day/ProductRenderning';
 import ProductList from './components/05day/ProductList';
 import FormValidations from './components/06day/FormValidations';
 import CSSinReact from './components/06day/CSSinReact';
+import ReactBootstrapDemo from './components/07day/ReactBootstrapDemo';
+import { MyButton, TextBox } from './components/07day/styledcomponents';
+import ReactHookFormValidations from './components/07day/ReactHookFormValidations';
 
 function App() {
   let a="hello"
@@ -65,8 +68,13 @@ function App() {
       {/* <ProductList/> */}
       
       {/* <FormValidations/> */}
-      <CSSinReact/>
+      {/* <CSSinReact/> */}
 
+      {/* <ReactBootstrapDemo/> */}
+
+      {/* <MyButton>Click Me</MyButton>
+      <TextBox type="datetime-local"></TextBox> */}
+      <ReactHookFormValidations/>
     </div>
   );
 }

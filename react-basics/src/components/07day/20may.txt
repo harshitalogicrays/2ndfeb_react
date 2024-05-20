@@ -1,0 +1,11 @@
+npm i react-bootstrap 
+
+npm i styled-components
+
+==================================
+1. formik library  - 
+2. React hook form - html validations 
+=================================
+lifting the state up 
+============================
+ref 

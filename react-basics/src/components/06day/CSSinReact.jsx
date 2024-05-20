@@ -12,6 +12,7 @@ const CSSinReact = () => {
         1. inline css - <Inlinecssdemo/><br/>
         2. css variable -<CSSvariable/><br/>
         3. Global CSS - <Globalcssdemo/><br/>
+
     </>
   )
 }

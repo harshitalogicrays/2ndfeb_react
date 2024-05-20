@@ -14,6 +14,7 @@ CSS in React -
 1. inline css 
 <h1 style="color:red;background-color:yellow"></h1> 
 In react => <h1 style={{color:'red',backgroundColor:'yellow'}}></h1>
+
 2. css variable - 
 let styles = {color:'red',backgroundColor:'yellow'}
 <h1 style={styles}></h1>
@@ -33,7 +34,14 @@ import aliasname from 'path'
 <h1 className={aliasname.classname}></h1>
 
 5. bootstrap 
-6. react-bootstrap 
+    <div className="container"></div>
+6. react-bootstrap  - 
+    <Container></Container>
+    <Card>
+        <Card.Header></Card.Header>
+        <Card.Body></Card.Body>
+        <Card.Footer></Card.Footer>
+    </Card>
 7. styled-components 
 8. material 
 9. tailwind 
