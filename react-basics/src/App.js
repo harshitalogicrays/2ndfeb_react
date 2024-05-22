@@ -19,6 +19,7 @@ import CSSinReact from './components/06day/CSSinReact';
 import ReactBootstrapDemo from './components/07day/ReactBootstrapDemo';
 import { MyButton, TextBox } from './components/07day/styledcomponents';
 import ReactHookFormValidations from './components/07day/ReactHookFormValidations';
+import Counter from './components/08day/Counter';
 
 function App() {
   let a="hello"
@@ -74,7 +75,9 @@ function App() {
 
       {/* <MyButton>Click Me</MyButton>
       <TextBox type="datetime-local"></TextBox> */}
-      <ReactHookFormValidations/>
+      {/* <ReactHookFormValidations/> */}
+
+      <Counter/>
     </div>
   );
 }

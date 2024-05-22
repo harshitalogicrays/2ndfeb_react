@@ -1,0 +1,21 @@
+Lifting the state up -
+
+state - 
+1. state is private , we can create and use state in the component only.
+2. we can not pass state directy to the child component. if we wan to pass the state value then we can use props.
+3. we can not make changes within state variable by children component directly, but we can using props.
+
+Counter APP -
+
+Parent -> count  -> 1 
+Child -> Button => +
+
+==========================================================================================
+
+useEffect 
+useCallback 
+useRef 
+ref 
+
+====================================================
+class component + class component life cycle methods, pure component
