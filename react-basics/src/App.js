@@ -20,6 +20,8 @@ import ReactBootstrapDemo from './components/07day/ReactBootstrapDemo';
 import { MyButton, TextBox } from './components/07day/styledcomponents';
 import ReactHookFormValidations from './components/07day/ReactHookFormValidations';
 import Counter from './components/08day/Counter';
+import PasswordGenerator from './components/09day/PasswordGenerator';
+import Refdemo from './components/09day/Refdemo';
 
 function App() {
   let a="hello"
@@ -77,7 +79,11 @@ function App() {
       <TextBox type="datetime-local"></TextBox> */}
       {/* <ReactHookFormValidations/> */}
 
-      <Counter/>
+      {/* <Counter/> */}
+
+      <PasswordGenerator/>
+      <hr/>
+      <Refdemo/>
     </div>
   );
 }

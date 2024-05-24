@@ -1,0 +1,48 @@
+Cache memory 
+
+Primary memory  ---------> secodary memory 
+
+Primary Memory  ---------> cache memory ----------> secodary Memory
+                          speed fast / code optimized 
+
+In react functional component - to optimized the code  , to increase the performance of the component  we can cache the function definition which we want to use multiple time.
+To implement this - we uses -> useCallback hook.
+
+useMemo -  expensive calculation
+
+
+code optimization -
+1. useCallback -  cache the function definition
+2. useMemo - cache the result of a calculation
+
+==============================================================================================
+
+form - 
+1. controlled component - react manages it  - state , onchange
+useState -> variable  , initalization
+rerendering
+2. uncontrolled component - DOM manage itself  - no state , onchange required 
+    ref 
+document.getElementById('txt') => reference
+useRef hook 
+reference  , no initalization 
+return current property 
+
+=============================================================
+ref part 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
