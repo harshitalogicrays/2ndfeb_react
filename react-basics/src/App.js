@@ -22,6 +22,8 @@ import ReactHookFormValidations from './components/07day/ReactHookFormValidation
 import Counter from './components/08day/Counter';
 import PasswordGenerator from './components/09day/PasswordGenerator';
 import Refdemo from './components/09day/Refdemo';
+import ClassCompDemo from './components/10day/ClassCompDemo';
+import ClassCompDemo1 from './components/10day/ClassCompDemo1';
 
 function App() {
   let a="hello"
@@ -81,9 +83,17 @@ function App() {
 
       {/* <Counter/> */}
 
-      <PasswordGenerator/>
+      {/* <PasswordGenerator/>
       <hr/>
-      <Refdemo/>
+      <Refdemo/> */}
+
+      {/* <ClassCompDemo username="Happy" address="Pune">
+          <PasswordGenerator/>
+          <h2>heading2</h2>
+      </ClassCompDemo> */}
+
+      <ClassCompDemo1/>
+      
     </div>
   );
 }

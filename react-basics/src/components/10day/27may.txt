@@ -1,0 +1,21 @@
+component -> function component and class component
+class component - 
+react using typescript 
+typescript - superset of javascript 
+
+====================================================
+rcc - react class component
+
+state object -> 
+rconst - constructor 
+
+class component life cycle method - 
+constructor
+render 
+
+phases -
+1. mounting phase 
+2. updating phase 
+3. unmounting phase 
+4. error handling phase 
+
