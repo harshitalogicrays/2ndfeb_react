@@ -1,0 +1,5 @@
+class component life cycle methods,pure component,createRef,forwardRef
+
+routing - react-router-dom 
+npm i react-router-dom
+v6 

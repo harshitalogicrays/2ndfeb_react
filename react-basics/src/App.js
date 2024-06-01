@@ -24,6 +24,8 @@ import PasswordGenerator from './components/09day/PasswordGenerator';
 import Refdemo from './components/09day/Refdemo';
 import ClassCompDemo from './components/10day/ClassCompDemo';
 import ClassCompDemo1 from './components/10day/ClassCompDemo1';
+import Lifecyclemethods from './components/11day/Lifecyclemethods';
+import PureCompClassDemo from './components/11day/PureCompClassDemo';
 
 function App() {
   let a="hello"
@@ -92,7 +94,18 @@ function App() {
           <h2>heading2</h2>
       </ClassCompDemo> */}
 
-      <ClassCompDemo1/>
+      {/* <ClassCompDemo1/> */}
+
+
+      {/* <button type="button" class="btn btn-primary me-4"  onClick={()=>setIsLoggedIn(!isLoggedIn)}>        
+        {isLoggedIn ? "Hide" : "Show"}
+      </button>
+      {isLoggedIn && <Lifecyclemethods username="Harshita"/>} */}
+      <hr/>
+      {/* <PureCompClassDemo/> */}
+
+
+      <Lifecyclemethods username="Ram"/>
       
     </div>
   );
