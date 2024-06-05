@@ -1,6 +1,8 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Pagenotfound from './features/Pagenotfound';
+import { Outlet } from 'react-router-dom';
+import Header from './features/Header';
 function App() {
    return (
     <>
@@ -15,7 +17,8 @@ function App() {
       draggable={false}
       pauseOnHover={false}
       theme="colored"/>
-      <h1>Hello React</h1>
+      <Header/>
+      <Outlet/>
     </>
   ) 
 }
