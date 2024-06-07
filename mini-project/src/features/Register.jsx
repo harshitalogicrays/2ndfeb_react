@@ -1,18 +1,43 @@
 import React, { useState } from 'react'
 import RegisterImg from '/src/assets/register.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
 const Register = () => {
-  const[user,setUser]=useState({username:'',email:'',password:'',cpassword:''})
+  const[user,setUser]=useState({username:'',email:'',password:'',cpassword:'',role:'1'})
   const [errors,setErrors]=useState({})
-  let handleSubmit=(e)=>{
+
+  const navigate=useNavigate()
+  let handleSubmit=async(e)=>{
       e.preventDefault()
       let myerrors = validations()
       console.log(myerrors)
       if(Object.keys(myerrors).length==0){
               setErrors({})
               setUser({username:'',email:'',password:'',cpassword:''})
-              alert(JSON.stringify(user))
+              //submit data in user resource 
+            //   try{
+            //     await  fetch("https://6662b01c62966e20ef09844c.mockapi.io/users",{
+            //         method:"POST",
+            //         headers:{'content-type':'application/json'},
+            //         body:JSON.stringify(user)
+            //       })
+            //     toast.success("Registered successfully")
+            //     navigate('/login')               
+            //   }
+            //   catch(err){
+            //     toast.error(err)
+            //   }
+             
+            try{
+                await  axios.post("https://6662b01c62966e20ef09844c.mockapi.io/users",user)
+                toast.success("Registered successfully")
+                navigate('/login')               
+              }
+              catch(err){
+                toast.error(err)
+              }
           }
       else { 
           setErrors(myerrors)
@@ -33,9 +58,6 @@ const Register = () => {
       if(user.password==''){
           formerrors.pwderr="Password is required"
       }
-      else if(user.password.length < 8 || user.password.length > 20){
-          formerrors.pwderr = "min 8 max 20 char allowed"
-      }
       if(user.cpassword =='' || user.cpassword !=user.password){
           formerrors.cpwderr="Password not match"
       }
@@ -44,7 +66,6 @@ const Register = () => {
 
 return (
   <div className='container mt-5 col-8'>
-  <h1>Form Validations</h1><hr/>
   <div className="row">
    <div className="col">
        <img src={RegisterImg} className='img-fluid'/>
