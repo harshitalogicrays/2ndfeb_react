@@ -3,6 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Pagenotfound from './features/Pagenotfound';
 import { Outlet } from 'react-router-dom';
 import Header from './features/Header';
+import ContextData from './features/ContextData';
 function App() {
    return (
     <>
@@ -17,8 +18,10 @@ function App() {
       draggable={false}
       pauseOnHover={false}
       theme="colored"/>
-      <Header/>
-      <Outlet/>
+      <ContextData>
+        <Header/>
+        <Outlet/>
+      </ContextData>
     </>
   ) 
 }

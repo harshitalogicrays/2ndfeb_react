@@ -54,9 +54,9 @@ let getData=async()=>{
   return (
    <>
     <h1>Home Page</h1>
-    {user.length==0 && <h1>No user found</h1>}
+    {/* {user.length==0 && <h1>No user found</h1>} */}
     {/* {user.map((u)=><p key={u.id}>{JSON.stringify(u)}</p>)} */}
-    {user.map((u)=><p key={u.id}>{u.name}</p>)}
+    {/* {user.map((u)=><p key={u.id}>{u.name}</p>)} */}
    </>
   )
 }

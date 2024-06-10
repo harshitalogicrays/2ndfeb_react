@@ -2,16 +2,40 @@ import React from 'react'
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap'
 import img1 from '/src/assets/login.png'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 const Login = () => {
   const { register, handleSubmit, formState: { errors }, trigger } = useForm()
-  let FormSubmit = (data) => {
+  const navigate=useNavigate()
+  let FormSubmit = async(data) => {
      //submit login data to the server 
-  }
+     try{
+        let res =  await axios.get(`https://6662b01c62966e20ef09844c.mockapi.io/users?email=${data.email}`)
+        console.log(res.data[0])
+        if(res.data[0].password == data.password){
+            toast.success("LoggedIn Successfully")
+            //sessionStorage 
+            let obj = {isLoggedIn:true,email:data.email,role:res.data[0].role,name:res.data[0].username}
+            sessionStorage.setItem("mini-2feb",JSON.stringify(obj))
+            if(res.data[0].role=="0"){
+                navigate('/admin')
+            }
+            else if(res.data[0].role=="1"){
+                navigate('/')
+            }
+        }
+        else {
+            toast.error("Invalid Credentials")
+        }
+     }
+     catch(err){toast.error(err)}
+   
+}
 
   return (
       <div>
-          <Container className="col-8 shadow mt-5">
+          <Container className="col-8 shadow">
               <br />
               <h1>Login Form</h1>
               <hr />

@@ -5,6 +5,7 @@ import Login from "./features/Login"
 import Register from "./features/Register"
 import Pagenotfound from "./features/Pagenotfound"
 import ProductList from "./features/ProductList"
+import Cart from "./features/Cart"
 
 const router = createBrowserRouter([
     {path:'/',element:<App/>,
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
         {path:'login',element:<Login/>},
         {path:'register',element:<Register/>},
         {path:'products',element:<ProductList/>},
+        {path:'cart',element:<Cart/>},
     ]},
     {path:'*',element:<Pagenotfound/>},
 ])
