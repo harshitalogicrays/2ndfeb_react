@@ -10,7 +10,7 @@ import { DataContext } from './ContextData';
 const Header = () => {
 //useContext hook
 let data =useContext(DataContext)
-console.log(data)
+// console.log(data)
 
 
   const navigate=useNavigate()
@@ -53,7 +53,7 @@ console.log(data)
           </Nav>
           <Nav>
             <Nav.Link as={Link} to='/cart'> <FaShoppingCart size={30} />
-              <span class="badge rounded-pill text-bg-danger">0</span>
+              <span class="badge rounded-pill text-bg-danger">{data.cart.length}</span>
             </Nav.Link>
             <ShowOnLogout>
               <Nav.Link as={NavLink} to='/login' style={({ isActive }) => {

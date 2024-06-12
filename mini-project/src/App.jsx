@@ -18,10 +18,7 @@ function App() {
       draggable={false}
       pauseOnHover={false}
       theme="colored"/>
-      <ContextData>
-        <Header/>
         <Outlet/>
-      </ContextData>
     </>
   ) 
 }
