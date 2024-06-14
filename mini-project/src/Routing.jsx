@@ -10,6 +10,9 @@ import Dashboard from "./features/Admin/Dashboard"
 import DefaultLayout from "./features/DefaultLayout"
 import AdminLayout from "./features/Admin/AdminLayout"
 import AdminDash from "./features/Admin/AdminDash"
+import AddProduct from "./features/Admin/AddProduct"
+import ViewProduct from "./features/Admin/ViewProduct"
+import { Protected, ProtectedAdmin } from "./features/hiddenlinks"
 
 const router = createBrowserRouter([
     {path:'/',element:<DefaultLayout><App/></DefaultLayout>,
@@ -18,10 +21,13 @@ const router = createBrowserRouter([
         {path:'login',element:<Login/>},
         {path:'register',element:<Register/>},
         {path:'products',element:<ProductList/>},
-        {path:'cart',element:<Cart/>},
+        {path:'cart',element:<Protected><Cart/></Protected>},
  ]},
-    {path:'/admin',element:<AdminLayout><Dashboard/></AdminLayout>,children:[
-        {path:'',element:<AdminDash/>}
+    {path:'/admin',element:<ProtectedAdmin><AdminLayout></AdminLayout></ProtectedAdmin>,children:[
+        {path:'',element:<AdminDash/>},
+        {path:'dash',element:<AdminDash/>},
+        {path:'add',element:<AddProduct/>},
+        {path:'view',element:<ViewProduct/>},
      ]},
     {path:'*',element:<Pagenotfound/>},
 ])
