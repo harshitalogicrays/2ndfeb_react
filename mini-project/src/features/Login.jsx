@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap'
 import img1 from '/src/assets/login.png'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import Loader from './Loader'
 const Login = () => {
   const { register, handleSubmit, formState: { errors }, trigger } = useForm()
+  const [isLoading,setIsLoading]=useState(false)
   const navigate=useNavigate()
   let FormSubmit = async(data) => {
      //submit login data to the server 
+    setIsLoading(true)
      try{
         let res =  await axios.get(`https://6662b01c62966e20ef09844c.mockapi.io/users?email=${data.email}`)
         console.log(res.data[0])
@@ -24,18 +27,22 @@ const Login = () => {
             else if(res.data[0].role=="1"){
                 navigate('/')
             }
+            setIsLoading(false)
         }
         else {
             toast.error("Invalid Credentials")
+            setIsLoading(false)
         }
      }
-     catch(err){toast.error(err)}
+     catch(err){toast.error(err);setIsLoading(false)}
    
 }
 
   return (
-      <div>
+      <>
+             {isLoading ? <Loader/> :
           <Container className="col-8 shadow">
+   
               <br />
               <h1>Login Form</h1>
               <hr />
@@ -65,7 +72,9 @@ const Login = () => {
                   </Row>
               </Form>
           </Container>
-      </div>
+}
+      </>
+
   )
 }
 

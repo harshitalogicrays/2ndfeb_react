@@ -2,17 +2,18 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { FaPenAlt, FaTrashAlt } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { axiosdeletedata, axiosfetchdata } from '../Api.js'
 
 const ViewProduct = () => {
-const [users,setUsers]=useState([])
+const [product,setProduct]=useState([])
   let getData=async()=>{
     try{
-      let res = await fetch("https://6662b01c62966e20ef09844c.mockapi.io/products")
-      let data = await res.json()
-      setUsers(data)
+      let res = await axiosfetchdata()
+       setProduct(res.data)
     }
-    catch(err){toast.error(err)}
+    catch(err){toast.error(err)} 
   }
 
   useEffect(()=>{
@@ -23,7 +24,7 @@ const [users,setUsers]=useState([])
   let handleDelete=async(id)=>{
     if(window.confirm("are you sure to delete this??")){
         try{
-          await axios.delete(`https://6662b01c62966e20ef09844c.mockapi.io/products/${id}`)
+          await axiosdeletedata(id)
         toast.success("product deleted")
         getData()
         }
@@ -44,19 +45,20 @@ const [users,setUsers]=useState([])
       <th>Action</th>
       </tr></thead>
       <tbody>
-        {users.length == 0 && <tr><td colSpan={8}>No product Found</td></tr>}
-    {users.map((user,i)=>
-        <tr key={user.id}>
-          <td>{user.id}</td>
-          <td>{user.name}</td>
-          <td><img src={user.image} height={50} width={50}/></td>
-          <td>{user.category}</td>
-          <td>{user.brand}</td>
-          <td>{user.stock}</td>
-          <td>{user.price}</td>
+        {product.length == 0 && <tr><td colSpan={8}>No product Found</td></tr>}
+    {product.map((product,i)=>
+        <tr key={product.id}>
+          <td>{product.id}</td>
+          <td>{product.name}</td>
+          <td><img src={product.image} height={50} width={50}/></td>
+          <td>{product.category}</td>
+          <td>{product.brand}</td>
+          <td>{product.stock}</td>
+          <td>{product.price}</td>
           <td>
-        <button type="button" class="btn btn-success me-2"><FaPenAlt/></button>
-        <button type="button" class="btn btn-danger" onClick={()=>handleDelete(user.id)}><FaTrashAlt/></button>
+        <Link type="button" class="btn btn-success me-2" 
+        to={`/admin/edit/${product.id}`}><FaPenAlt/></Link>
+        <button type="button" class="btn btn-danger" onClick={()=>handleDelete(product.id)}><FaTrashAlt/></button>
 
           </td>
         </tr>

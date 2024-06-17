@@ -28,6 +28,7 @@ const router = createBrowserRouter([
         {path:'dash',element:<AdminDash/>},
         {path:'add',element:<AddProduct/>},
         {path:'view',element:<ViewProduct/>},
+        {path:'edit/:id',element:<AddProduct/>},
      ]},
     {path:'*',element:<Pagenotfound/>},
 ])
