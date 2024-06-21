@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice,nanoid} from "@reduxjs/toolkit";
 
 const userSlice= createSlice({
     name:"user",
@@ -6,10 +6,12 @@ const userSlice= createSlice({
     reducers:{
         //pure functions
         add_user:(state,action)=>{
-            console.log("add_user called")
-            console.log(state.users.length)
-            console.log(action)
-            console.log(action.payload)
+            // console.log("add_user called")
+            // console.log(state.users.length)
+            // console.log(action)
+            // console.log(action.payload)
+            // state.users.push({...action.payload,id:Date.now()})
+            state.users.push({...action.payload,id:nanoid()})
         },
         remove_user(state,action){}
     }
