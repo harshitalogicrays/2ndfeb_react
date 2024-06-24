@@ -2,11 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { FaShoppingCart } from "react-icons/fa";
+import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ShowOnLogin, ShowOnLogout } from './hiddenlinks';
 import { toast } from 'react-toastify';
 import { DataContext } from './ContextData';
+import { Button, Form, InputGroup } from 'react-bootstrap';
+import { axiosfetchdata } from './Api';
+import { useDispatch } from 'react-redux';
+import { FILTER_BY_SEARCH } from '../redux/filterSlice';
 const Header = () => {
 //useContext hook
 let data =useContext(DataContext)
@@ -27,6 +31,25 @@ let data =useContext(DataContext)
       setUsername(obj.name)
     }
   },[  sessionStorage.getItem("mini-2feb")])
+
+
+  //search
+  const dispatch=useDispatch() 
+  let [search,setSearch]=useState('')
+  let handleSearch=()=>{
+    dispatch(FILTER_BY_SEARCH({Products,search}))
+  }
+
+  // useEffect(()=>{
+  //     dispatch(FILTER_BY_SEARCH({Products,search}))
+  // },[search])
+
+  let [Products,setProducts]=useState([])
+  let getData=async()=>{
+    try{ let res = await axiosfetchdata()
+      setProducts(res.data) }
+    catch(err){toast.error(err)}  }
+  useEffect(()=>{  getData() },[])
 
   return (
     <Navbar expand="lg" bg="dark" data-bs-theme="dark">
@@ -51,6 +74,13 @@ let data =useContext(DataContext)
               };
             }} >Products</Nav.Link>
           </Nav>
+            <Form>
+            <InputGroup>
+               <Form.Control type="text" placeholder="Search" value={search} 
+               onChange={(e)=>setSearch(e.target.value)}/>
+               <Button type="button" variant='danger' onClick={handleSearch}><FaSearch/></Button>
+               </InputGroup>
+          </Form>
           <Nav>
             <Nav.Link as={Link} to='/cart'> <FaShoppingCart size={30} />
               <span class="badge rounded-pill text-bg-danger">{data.cart.length}</span>

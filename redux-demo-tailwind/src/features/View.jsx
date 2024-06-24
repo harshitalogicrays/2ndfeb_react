@@ -1,9 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { remove_all_users, remove_user, selectUsers } from '../redux/userSlice'
 
 const View = () => {
-    let allusers = useSelector((state)=>state.user.users)
-    console.log(allusers)
+    // let allusers = useSelector((state)=>state.user.users)
+    let allusers = useSelector(selectUsers)
+    const dispatch=useDispatch()
   return (
     <div>
       <h1>View Users</h1>
@@ -26,11 +28,15 @@ const View = () => {
       <td class="border border-slate-300 ">{user.email}</td>
       <td class="border border-slate-300 ">{user.password}</td>
       <td class="border border-slate-300 ">
-        <button className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Remove</button>
+        <button className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" 
+        onClick={()=>dispatch(remove_user(i))}>Remove</button>
       </td>
     </tr>)}
   </tbody>
 </table>
+<button type="button" className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" 
+onClick={()=>dispatch(remove_all_users())}>Remove All </button>
+
     </div>
   )
 }
