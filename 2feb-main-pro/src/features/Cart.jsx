@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Col, Row, Table } from 'react-bootstrap'
 import { FaTrash } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import { ADD_TO_CART, CALCULATE_TOTAL, DECREASE, EMPTY_CART, REMOVE_FROM_CART, selectCartItems, selectTotalAmount } from '../redux/cartSlice'
 
 const Cart = () => {
+    const cart = useSelector(selectCartItems)
+    const total=useSelector(selectTotalAmount)
+    const dispatch=useDispatch()
+    useEffect(()=>{
+        dispatch(CALCULATE_TOTAL())
+    },[cart])
    return (
     <div className='container'>
         <h1>Cart Page</h1><hr/>
@@ -18,20 +26,27 @@ const Cart = () => {
                     <th>Action</th>
                 </tr>
             </thead>
-                <tbody>
-                    <tr><td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td></tr>
-                </tbody>
+            <tbody>
+                {cart.length==0 && <tr><td colspan={7}>No Item in Cart</td></tr>}
+                {cart.map((c,i)=>
+                    <tr key={c.id}>
+                        <td>{i+1}</td><td>{c.name}</td>
+                        <td><img src={c.image} height={50} width={50}/></td> <td>{c.price}</td>
+                        <td><button type="button" onClick={()=>dispatch(DECREASE(c))}>-</button>
+                            <input type="text" value={c.qty} style={{width:'40px',textAlign:'center'}}/>
+                            <button type="button" onClick={()=>dispatch(ADD_TO_CART(c))}>+</button>
+                            </td>
+                        <td>{c.qty*c.price}</td>
+                        <td><button  type="button"  class="btn btn-danger me-2"  
+                        onClick={()=>dispatch(REMOVE_FROM_CART(c.id))} >
+                            <FaTrash/> </button>
+
+                        </td>   </tr>    )} </tbody> 
        </Table>
         <Row><Col xs={8}>
-            <Button variant='danger' className='btn-lg'>Empty Cart</Button> </Col>
+            <Button variant='danger' className='btn-lg' onClick={()=>dispatch(EMPTY_CART())}>Empty Cart</Button> </Col>
             <Col xs={4}>
-                <h1>Total: <span className='float-end'>$0</span></h1><hr/>
+                <h1>Total: <span className='float-end'>${total}</span></h1><hr/>
                 <div class="d-grid gap-2">
                 <Button variant='info'  >checkout</Button>
                 </div>

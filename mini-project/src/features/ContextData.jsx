@@ -33,6 +33,7 @@ const ContextData = ({children}) => {
       else toast.info(`${product.name}already added to cart`) }
     else {  toast.error("Please login first")
       navigate('/login') }  }
+      
     let increase=(product)=>{
       const itemIndex = cart.findIndex(item=>item.id==product.id)
       if(itemIndex != -1){

@@ -1,7 +1,10 @@
+import { useSelector } from "react-redux"
 import { Navigate } from "react-router-dom"
+import { selectIsLoggedIn, selectUserRole } from "../redux/authSlice"
 
   export const ShowOnLogin=({children})=>{
-    if(sessionStorage.getItem("mini-2feb") != null){
+    let isLoggedIn = useSelector(selectIsLoggedIn)
+    if(isLoggedIn){
          return children
     }
     else{
@@ -9,7 +12,8 @@ import { Navigate } from "react-router-dom"
     }
   }
   export const ShowOnLogout=({children})=>{
-    if(sessionStorage.getItem("mini-2feb") == null){
+    let isLoggedIn = useSelector(selectIsLoggedIn)
+    if(isLoggedIn==false){
        return children
     }
     else{
@@ -18,25 +22,21 @@ import { Navigate } from "react-router-dom"
   }
 
   export const ProtectedAdmin=({children})=>{
-    if(sessionStorage.getItem("mini-2feb") != null){
-        let data = JSON.parse(sessionStorage.getItem("mini-2feb"))
-        if(data.isLoggedIn==true && data.role=="0") return children
+    let isLoggedIn = useSelector(selectIsLoggedIn)
+    let role=useSelector(selectUserRole)
+    if(isLoggedIn && role=="0"){
+         return children
+    }
         else 
             return <Navigate to='/login' replace={true}/>
-    }
-    else{
-        return <> <Navigate to="/login" replace={true} /></>
-    }
   }
 
   export const Protected=({children})=>{
-    if(sessionStorage.getItem("mini-2feb") != null){
-        let data = JSON.parse(sessionStorage.getItem("mini-2feb"))
-        if(data.isLoggedIn==true && data.role=="1") return children
+    let isLoggedIn = useSelector(selectIsLoggedIn)
+    let role=useSelector(selectUserRole)
+    if(isLoggedIn && role=="1"){
+         return children
+    }
         else 
             return <Navigate to='/login' replace={true}/>
-    }
-    else{
-        return <> <Navigate to="/login" replace={true} /></>
-    }
   }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,29 +7,48 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { ShowOnLogin, ShowOnLogout } from './hiddenlinks';
 import { toast } from 'react-toastify';
 import { Button, Form, InputGroup } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FILTER_BY_SEARCH } from '../redux/filterSlice';
-import Products from './Products.js'
+import { auth, db } from '../firebase/config.jsx';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { LOGIN_USER, LOGOUT_USER, selectUserName } from '../redux/authSlice.js';
+import { doc, getDoc } from 'firebase/firestore';
+import { selectCartItems } from '../redux/cartSlice.js';
 const Header = () => {
 
   const navigate=useNavigate()
   let handleLogout=()=>{
-    sessionStorage.removeItem("mini-2feb")
-    toast.success("loggedOut Successfully")
-    navigate('/')
+    signOut(auth).then(() => {
+      toast.success("loggedOut Successfully")
+      navigate('/')
+    }).catch((error) => {
+      toast.error(error.message)
+    });
+   
   }
 
-  let [username,setUsername]=useState("Guest")
+
+  const dispatch = useDispatch()
   useEffect(()=>{
-    if(sessionStorage.getItem("mini-2feb")!=null){
-      let obj=JSON.parse(sessionStorage.getItem("mini-2feb"))
-      setUsername(obj.name)
-    }
-  },[  sessionStorage.getItem("mini-2feb")])
+    onAuthStateChanged(auth, async(user) => {
+      if (user) {
+          const uid = user.uid;
+          const docRef = doc(db,"users",uid)
+            const docSnap = await getDoc(docRef)
+           let obj = {name:docSnap.data().username,role:docSnap.data().role,email:docSnap.data().email,id:uid} 
+          dispatch(LOGIN_USER(obj))
+        } else {
+          dispatch(LOGOUT_USER())
+      }
+    });
+  },[auth])
+let username=useSelector(selectUserName)
+
+
+const cartItems =useSelector(selectCartItems)
 
 
   //search
-  const dispatch=useDispatch() 
   let [search,setSearch]=useState('')
   let handleSearch=()=>{
     dispatch(FILTER_BY_SEARCH({Products,search}))
@@ -78,7 +97,7 @@ const Header = () => {
           </Form>
           <Nav>
             <Nav.Link as={Link} to='/cart'> <FaShoppingCart size={30} />
-              <span class="badge rounded-pill text-bg-danger">0</span>
+              <span class="badge rounded-pill text-bg-danger">{cartItems.length}</span>
             </Nav.Link>
             <ShowOnLogout>
               <Nav.Link as={NavLink} to='/login' style={({ isActive }) => {

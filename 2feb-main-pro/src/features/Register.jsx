@@ -17,9 +17,7 @@ const Register = () => {
       let myerrors = validations()
       console.log(myerrors)
       if(Object.keys(myerrors).length==0){
-              setErrors({})
-              setUser({username:'',email:'',password:'',cpassword:''})
-           
+              setErrors({})    
              setIsLoading(true)
             try{           
                 createUserWithEmailAndPassword(auth, user.email, user.password)

@@ -5,8 +5,10 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Loader from './Loader'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../firebase/config'
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
+import { auth, db } from '../firebase/config'
+import { Timestamp, doc, getDoc, setDoc } from 'firebase/firestore'
+import { FaGoogle } from 'react-icons/fa'
 const Login = () => {
   const { register, handleSubmit, formState: { errors }, trigger } = useForm()
   const [isLoading,setIsLoading]=useState(false)
@@ -16,10 +18,22 @@ const Login = () => {
     setIsLoading(true)
      try{
         signInWithEmailAndPassword(auth, data.email, data.password)
-        .then((userCredential) => {
+        .then(async(userCredential) => {
           const user = userCredential.user;
-            toast.success("LoggedIn successfully")
-            navigate('/')
+            const docRef = doc(db,"users",user.uid)
+            const docSnap = await getDoc(docRef)
+            if(docSnap.exists()){
+                // console.log(docSnap.data())
+                if(docSnap.data().role=="0"){
+                    toast.success("LoggedIn successfully")
+                    navigate('/admin')
+                }
+                else if(docSnap.data().role=="1"){
+                    toast.success("LoggedIn successfully")
+                    navigate('/')
+                }
+            }
+           
         })
         .catch((error) => {
               toast.error(error.message)
@@ -29,6 +43,21 @@ const Login = () => {
      catch(err){toast.error(err);setIsLoading(false)}
    
 }
+const provider = new GoogleAuthProvider();
+let loginwithgoogle=()=>{
+        signInWithPopup(auth, provider)
+    .then(async(result) => {
+        const user = result.user;
+        const docRef = doc(db,"users",user.uid)
+        await setDoc(docRef,{username:user.displayName,
+            email:user.email, role:'1',
+            createdAt:Timestamp.now().toMillis()})
+        toast.success("LoggedIn successfully")
+        navigate('/')
+        }).catch((error) => {
+        toast.error(error.message)
+        });
+    }
 
   return (
       <>
@@ -60,7 +89,8 @@ const Login = () => {
                           </div>
                           <hr/>
                           <div class="d-grid gap-2 mt-2">
-                          <Button variant="danger" type='button'>Login with Google</Button>
+                          <Button variant="light" className='border' type='button' 
+                          onClick={loginwithgoogle}><FaGoogle/> Continue with Google</Button>
                           </div>
                           <p>Create an account?? <Link to='/register'>Register</Link></p>
                         

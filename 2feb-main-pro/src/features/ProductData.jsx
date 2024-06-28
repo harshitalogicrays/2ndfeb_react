@@ -1,8 +1,11 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { ADD_TO_CART } from '../redux/cartSlice'
 
 const ProductData = ({product}) => {
-
+  const dispatch=useDispatch()
   let handleCart=()=>{
+      dispatch(ADD_TO_CART(product))
         }
   return (
     <div className='col-3 mb-2'>

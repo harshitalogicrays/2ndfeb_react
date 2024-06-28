@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 const ASidebar = () => {
 
 const links = [
-  {link:NavLink , to:'/admin/dash' , name:'Dashboard' },
+  {link:NavLink , to:'/admin' , name:'Dashboard' },
   {link:NavLink , to:'/admin/add' , name:'Add Product' },
   {link:NavLink , to:'/admin/view' , name:'View Product' },
 ]
