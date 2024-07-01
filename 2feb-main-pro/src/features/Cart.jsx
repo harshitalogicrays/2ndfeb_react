@@ -2,15 +2,29 @@ import React, { useEffect } from 'react'
 import { Button, Col, Row, Table } from 'react-bootstrap'
 import { FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { ADD_TO_CART, CALCULATE_TOTAL, DECREASE, EMPTY_CART, REMOVE_FROM_CART, selectCartItems, selectTotalAmount } from '../redux/cartSlice'
+import { ADD_TO_CART, CALCULATE_TOTAL, DECREASE, EMPTY_CART, REMOVE_FROM_CART, SAVE_URL, selectCartItems, selectTotalAmount } from '../redux/cartSlice'
+import { selectIsLoggedIn } from '../redux/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Cart = () => {
     const cart = useSelector(selectCartItems)
     const total=useSelector(selectTotalAmount)
     const dispatch=useDispatch()
-    useEffect(()=>{
-        dispatch(CALCULATE_TOTAL())
-    },[cart])
+    useEffect(()=>{dispatch(CALCULATE_TOTAL())  },[cart])
+
+    const isLoggedIn=useSelector(selectIsLoggedIn)
+    const url=window.location.href
+    const navigate=useNavigate()
+    let handleCheckout=()=>{
+        if(isLoggedIn){
+            navigate('/checkout-details')
+        }
+        else{
+            dispatch(SAVE_URL(url))
+            navigate('/login')
+         
+        }
+    }
    return (
     <div className='container'>
         <h1>Cart Page</h1><hr/>
@@ -48,7 +62,7 @@ const Cart = () => {
             <Col xs={4}>
                 <h1>Total: <span className='float-end'>${total}</span></h1><hr/>
                 <div class="d-grid gap-2">
-                <Button variant='info'  >checkout</Button>
+                <Button variant='info' onClick={handleCheckout}  >checkout</Button>
                 </div>
                 
             </Col>

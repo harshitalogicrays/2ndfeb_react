@@ -11,12 +11,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FILTER_BY_SEARCH } from '../redux/filterSlice';
 import { auth, db } from '../firebase/config.jsx';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { LOGIN_USER, LOGOUT_USER, selectUserName } from '../redux/authSlice.js';
+import { LOGIN_USER, LOGOUT_USER, selectIsLoggedIn, selectUserName, selectUserRole } from '../redux/authSlice.js';
 import { doc, getDoc } from 'firebase/firestore';
 import { selectCartItems } from '../redux/cartSlice.js';
 const Header = () => {
-
   const navigate=useNavigate()
+
+  const isLoggedIn=useSelector(selectIsLoggedIn)
+  const role = useSelector(selectUserRole)
+
   let handleLogout=()=>{
     signOut(auth).then(() => {
       toast.success("loggedOut Successfully")
@@ -88,6 +91,11 @@ const cartItems =useSelector(selectCartItems)
               };
             }} >Products</Nav.Link>
           </Nav>
+          {isLoggedIn && role=="0" &&
+          <Nav className="me-auto">
+            <Button variant='danger' as={NavLink} to='/admin'>Admin Panel</Button>
+          </Nav>
+          }
             <Form>
             <InputGroup>
                <Form.Control type="text" placeholder="Search" value={search} 

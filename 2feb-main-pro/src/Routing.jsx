@@ -10,6 +10,11 @@ import DefaultLayout from "./features/DefaultLayout"
 import { Protected, ProtectedAdmin } from "./features/hiddenlinks"
 import AdminLayout from "./features/Admin/AdminLayout"
 import AdminDash from "./features/Admin/AdminDash"
+import CheckoutDetails from "./features/CheckoutDetails"
+import AddCategory from "./features/Admin/AddCategory"
+import ViewCategory from "./features/Admin/ViewCategory"
+import AddProduct from "./features/Admin/AddProduct"
+import ViewProduct from "./features/Admin/ViewProduct"
 
 const router = createBrowserRouter([
     {path:'/',element:<DefaultLayout><App/></DefaultLayout>,
@@ -19,10 +24,15 @@ const router = createBrowserRouter([
         {path:'register',element:<Register/>},
         {path:'products',element:<ProductList/>},
         {path:'cart',element:<Cart/>},
+        {path:'checkout-details',element:<Protected><CheckoutDetails/></Protected>},
  ]},
     {path:'/admin',element:<ProtectedAdmin><AdminLayout/></ProtectedAdmin>,
         children:[
-            {path:'',element:<AdminDash/>},
+            {path:'dash',element:<AdminDash/>},
+            {path:'add/category',element:<AddCategory/>},
+            {path:'view/category',element:<ViewCategory/>},
+            {path:'add/product',element:<AddProduct/>},
+            {path:'view/product',element:<ViewProduct/>},
         ]},
     {path:'*',element:<Pagenotfound/>},
 ])

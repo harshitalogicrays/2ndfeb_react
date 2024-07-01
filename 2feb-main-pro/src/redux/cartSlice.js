@@ -43,8 +43,8 @@ const cartSlice = createSlice({
             let t = state.cartItems.reduce((prev,curr)=>{return prev+(curr.qty*curr.price)},0)
             state.totalAmount=t
         },
-        SAVE_URL(state,action){
-            state.previousURL=action.payload
+        SAVE_URL(state,action){ 
+            state.previousURL=action.payload //http://localhost:3000/cart
         }
     }
 })

@@ -6,9 +6,11 @@ import { NavLink } from 'react-router-dom';
 const ASidebar = () => {
 
 const links = [
-  {link:NavLink , to:'/admin' , name:'Dashboard' },
-  {link:NavLink , to:'/admin/add' , name:'Add Product' },
-  {link:NavLink , to:'/admin/view' , name:'View Product' },
+  {link:NavLink , to:'/admin/dash' , name:'Dashboard' },
+  {link:NavLink , to:'/admin/add/category' , name:'Add Category' },
+  {link:NavLink , to:'/admin/view/category' , name:'View Category' },
+  {link:NavLink , to:'/admin/add/product' , name:'Add Product' },
+  {link:NavLink , to:'/admin/view/product' , name:'View Product' },
 ]
   return (
    <Nav  className="flex-column ">

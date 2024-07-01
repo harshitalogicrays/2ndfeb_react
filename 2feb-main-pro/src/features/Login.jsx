@@ -9,10 +9,22 @@ import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 
 import { auth, db } from '../firebase/config'
 import { Timestamp, doc, getDoc, setDoc } from 'firebase/firestore'
 import { FaGoogle } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
+import { selectURL } from '../redux/cartSlice'
 const Login = () => {
   const { register, handleSubmit, formState: { errors }, trigger } = useForm()
   const [isLoading,setIsLoading]=useState(false)
   const navigate=useNavigate()
+
+  const previousURL=useSelector(selectURL)
+  const redirectUser=()=>{
+    if(previousURL.includes('cart')){
+        navigate('/cart')
+    }
+    else {navigate('/')}
+  }
+
+
   let FormSubmit = async(data) => {
      //submit login data to the server 
     setIsLoading(true)
@@ -30,7 +42,8 @@ const Login = () => {
                 }
                 else if(docSnap.data().role=="1"){
                     toast.success("LoggedIn successfully")
-                    navigate('/')
+                    // navigate('/')
+                    redirectUser()
                 }
             }
            
@@ -53,7 +66,8 @@ let loginwithgoogle=()=>{
             email:user.email, role:'1',
             createdAt:Timestamp.now().toMillis()})
         toast.success("LoggedIn successfully")
-        navigate('/')
+        // navigate('/')
+        redirectUser()
         }).catch((error) => {
         toast.error(error.message)
         });
