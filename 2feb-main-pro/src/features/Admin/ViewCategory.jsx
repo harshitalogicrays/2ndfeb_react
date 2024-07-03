@@ -58,7 +58,8 @@ const ViewCategory = () => {
                   <td><img src={c.image} height={50} width={50}/></td>
                   <td>{c.desc}</td>
                   <td>
-                    <button type="button"  class="btn btn-success me-2" ><FaPenAlt/></button>
+                    <Link type="button"  class="btn btn-success me-2" 
+                    to={`/admin/edit/category/${c.id}`} ><FaPenAlt/></Link>
                     <button type="button"  class="btn btn-danger"   
                     onClick={()=>handleDelete(c.id,c.image)}><FaTrashAlt/></button>
                   </td>

@@ -1,14 +1,28 @@
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { db, storage } from '../../firebase/config'
 import { toast } from 'react-toastify'
-import { Timestamp, addDoc, collection } from 'firebase/firestore'
+import { Timestamp, addDoc, collection, doc, setDoc } from 'firebase/firestore'
+import { useSelector } from 'react-redux'
+import { selectCategories } from '../../redux/categorySlice'
 
 const AddCategory = () => {
   const navigate=useNavigate()
   const [category,setCategory]=useState({name:'',image:'',desc:''})
   const [uploadProgress,setUploadProgress]=useState(0)
+
+  //edit 
+  const {id}=useParams()
+  const categories = useSelector(selectCategories)
+  const categoryEdit =categories.find((item)=>item.id==id)
+  useEffect(()=>{
+    if(id){
+      setCategory({...categoryEdit})
+    }
+    else setCategory({name:'',image:'',desc:''})
+  },[id])
+
   let handleImage=(e)=>{ let file = e.target.files[0]
       const storageRef = ref(storage, `category/${Date.now()}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -20,20 +34,36 @@ const AddCategory = () => {
         () => {  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log('File available at', downloadURL);
             setCategory({...category,image:downloadURL})
-          });  } ); } 
+          });  } );
+         } 
+
+
   let handleSubmit=async(e)=>{
     e.preventDefault()
-    try{ const docRef = collection(db,"categories")
-        await addDoc(docRef,{...category,createdAt:Timestamp.now().toMillis()})
-        toast.success("category added")
-        navigate('/admin/view/category') }
-    catch(error){toast.error(error.message)}
+    if(!id){
+        try{ const docRef = collection(db,"categories")
+            await addDoc(docRef,{...category,createdAt:Timestamp.now().toMillis()})
+            toast.success("category added")
+            navigate('/admin/view/category') }
+        catch(error){toast.error(error.message)}
+    }
+    else {
+          if(category.image != categoryEdit.image){
+            deleteObject(ref(storage,categoryEdit.image))
+          }
+          try{ const docRef = doc(db,"categories",id)
+            await setDoc(docRef,{...category,createdAt:categoryEdit.createdAt ,
+              editedAt:Timestamp.now().toMillis()})
+            toast.success("category updated")
+            navigate('/admin/view/category') }
+        catch(error){toast.error(error.message)}
+    }
   } 
   return (
     <div className='container mt-5'>
       <div class="card">
         <div class="card-header">
-          <h1>Add Category 
+          <h1>{id? "Edit " : "Add "} Category 
             <Link  type="button"  
             class="btn btn-primary btn-lg float-end" 
             to='/admin/view/category'> View Categories </Link>
@@ -56,12 +86,13 @@ const AddCategory = () => {
                 <label for="" class="form-label">Image</label>
                 <input  type="file"  name="image" class="form-control" onChange={handleImage}/>
               </div>
+              {id && <img src={category.image} height={50} width={50}/>}
               <div class="mb-3">
                 <label for="" class="form-label">Description</label>
                 <textarea name="desc" class="form-control" value={category.desc} 
                 onChange={(e)=>setCategory({...category,desc:e.target.value})} ></textarea>
               </div>
-              <button type="submit"    class="btn btn-primary" >  Submit  </button>
+              <button type="submit"    class="btn btn-primary" >  {id? "Update":"Submit"}  </button>
               
             </form>
         </div>

@@ -2,21 +2,49 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Row,Image } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import useFetchCollection from '../../customhook/useFetchCollection'
+import { Timestamp, addDoc, collection } from 'firebase/firestore'
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { db, storage } from '../../firebase/config'
 
 const AddProduct = () => {
+    const {data:categories}=useFetchCollection('categories');
     let initialvalues = {category:'',name:'',brand:'',stock:'',price:'',image:'',desc:''}
     const [product,setProduct]=useState({...initialvalues})
-       let categories = ["Grocery","Electronics",'accessoires','medical','cloths']
-    const redirect=useNavigate()
+    const [uploadProgress,setUploadProgress]=useState(0)
+    const navigate=useNavigate()
+
+
+    //edit 
+    const {id}=useParams
 
     let handleImage=(e)=>{
-        console.log(e.target.files)
+        // console.log(e.target.files)
+        let allimages=e.target.files //nodelist
+        let arr=[]
+        Array.from(allimages).forEach((file,i)=>{
+            const storageRef = ref(storage, `products/${Date.now()}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            uploadTask.on('state_changed', 
+              (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;   
+                setUploadProgress(progress)  }, 
+              (error) => {toast.error(error.message) }, 
+              () => {  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        arr.push(downloadURL)
+                });  } );
+        })
+      setProduct({...product,image:arr})
       
     }
 
     let handleSubmit=async(event)=>{
         event.preventDefault(); 
-          
+        try{ const docRef = collection(db,"products")
+            await addDoc(docRef,{...product,createdAt:Timestamp.now().toMillis()})
+            toast.success("product added")
+            navigate('/admin/view/product') }
+        catch(error){toast.error(error.message)} 
     
     }
 
@@ -29,7 +57,7 @@ const AddProduct = () => {
                     <Form.Label >Category</Form.Label>
                     <Form.Select name="category" onChange={(e)=>setProduct({...product,category:e.target.value})} value={product.category}>
                         <option value='' selected disabled>choose category</option>
-                        {categories.map((c,i)=><option key={i}>{c}</option>)}
+                        {categories.map((c,i)=><option key={i}>{c.name}</option>)}
                     </Form.Select>
                 </Form.Group>
                 <Row>
@@ -52,10 +80,16 @@ const AddProduct = () => {
                     <Form.Control name="stock" type="number" onChange={(e)=>setProduct({...product,stock:e.target.value})} value={product.stock}></Form.Control>
                 </Form.Group></Col>
                 </Row>
+                {uploadProgress > 0 &&
+              <div class="progress" role="progressbar">
+              <div class="progress-bar progress-bar-striped" style={{width: `${uploadProgress}%`}}>
+                {uploadProgress < 100 ? <>{`Uploading ${uploadProgress}%`}</> :<>{`Uploaded ${uploadProgress}%`}</>}
+              </div>
+            </div>}
+           
                 <Form.Group className='mb-2'>
                     <Form.Label>Choose File</Form.Label>
-                    <Form.Control type="file" name="image" onChange={handleImage}></Form.Control>
-                    {id && <Image src={product.image} height={50} width={50}/>}
+                    <Form.Control type="file" name="image" onChange={handleImage} multiple></Form.Control>
                 </Form.Group>
                 <Form.Group className='mb-2'>
                     <Form.Label>Description</Form.Label>
