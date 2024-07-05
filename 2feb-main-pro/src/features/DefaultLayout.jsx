@@ -6,9 +6,7 @@ const DefaultLayout = ({children}) => {
   return (
    <>
     <Header/>
-    <Container>
         {children}
-    </Container>
    </>
   )
 }

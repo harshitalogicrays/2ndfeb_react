@@ -14,6 +14,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { LOGIN_USER, LOGOUT_USER, selectIsLoggedIn, selectUserName, selectUserRole } from '../redux/authSlice.js';
 import { doc, getDoc } from 'firebase/firestore';
 import { selectCartItems } from '../redux/cartSlice.js';
+import useFetchCollection from '../customhook/useFetchCollection.js';
 const Header = () => {
   const navigate=useNavigate()
 
@@ -53,21 +54,14 @@ const cartItems =useSelector(selectCartItems)
 
   //search
   let [search,setSearch]=useState('')
+  const {data:Products}=useFetchCollection('products')
   let handleSearch=()=>{
     dispatch(FILTER_BY_SEARCH({Products,search}))
+    navigate('/products')
   }
-
   // useEffect(()=>{
-  //     dispatch(FILTER_BY_SEARCH({Products,search}))
+  //     dispatch(FILTER_BY_SEARCH({Products,search})) 
   // },[search])
-
-  // let [Products,setProducts]=useState([])
-  // let getData=async()=>{
-  //   try{ let res = await axiosfetchdata()
-  //     setProducts(res.data) }
-  //   catch(err){toast.error(err)}  }
-  // useEffect(()=>{  getData() },[])
-
   return (
     <Navbar expand="lg" bg="dark" data-bs-theme="dark">
       <Container fluid>

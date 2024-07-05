@@ -3,25 +3,18 @@ import ProductItems from './ProductItems.jsx'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { FILTER_BY_CATEGORY, selectCategory, selectFilters, selectSearch } from '../redux/filterSlice.js'
-import Products from './Products.js'
+import useFetchCollection from '../customhook/useFetchCollection.js'
+import { selectproducts, STORE_PRODUCTS } from '../redux/productSlice.js'
 const ProductList = () => {
-  // let [Products,setProducts]=useState([])
-  // let getData=async()=>{
-  //   try{
-    
-  //     setProducts(res.data)
-  //   }
-  //   catch(err){toast.error(err)} 
-  // }
+  const {data}=useFetchCollection('products')
+  const dispatch=useDispatch()
+  useEffect(()=>{
+    dispatch(STORE_PRODUCTS(data))
+  },[data])
+  const Products = useSelector(selectproducts)
 
-  // useEffect(()=>{
-  //   getData()
-  // },[])
-
-
-let categories = ["Grocery","Electronics",'accessoires','medical','cloths']
+const {data:categories}=useFetchCollection('categories'); 
 let [category,setCategory]=useState('')
-const dispatch=useDispatch()
   useEffect(()=>{
     dispatch(FILTER_BY_CATEGORY({Products,category}))
   },[category])
@@ -40,7 +33,7 @@ const dispatch=useDispatch()
           <div className="col-8"> 
             <select  class="form-select" name="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
              <option value='' selected disabled>choose category</option>
-             {categories.map((c,i)=><option key={i}>{c}</option>)}
+             {categories.map((c,i)=><option key={i}>{c.name}</option>)}
           </select></div>
          
         </div>

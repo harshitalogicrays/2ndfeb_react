@@ -3,9 +3,11 @@ import { Button, Col, Container, Form, Row,Image } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import useFetchCollection from '../../customhook/useFetchCollection'
-import { Timestamp, addDoc, collection } from 'firebase/firestore'
+import { Timestamp, addDoc, collection, doc, setDoc } from 'firebase/firestore'
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { db, storage } from '../../firebase/config'
+import { useSelector } from 'react-redux'
+import { selectproducts } from '../../redux/productSlice'
 
 const AddProduct = () => {
     const {data:categories}=useFetchCollection('categories');
@@ -16,12 +18,28 @@ const AddProduct = () => {
 
 
     //edit 
-    const {id}=useParams
+    const [oldImages,setOldImages]=useState([])
+    const [newImages,setNewImages]=useState([])
+    const {id}=useParams()
+    const products = useSelector(selectproducts)
+    const productEdit = products.find(item=>item.id==id) 
+    useEffect(()=>{
+        if(id){ setProduct({...productEdit})
+        setOldImages(productEdit.image)
+    }
+        else setProduct({...initialvalues})
+    },[id])
 
+    let removeImage=(imageURL,index)=>{
+        let updatedImges=[...oldImages]
+        updatedImges.splice(index,1)
+        setOldImages([...updatedImges])
+        deleteObject(ref(storage,imageURL))
+    }
+
+// ============================
     let handleImage=(e)=>{
-        // console.log(e.target.files)
         let allimages=e.target.files //nodelist
-        let arr=[]
         Array.from(allimages).forEach((file,i)=>{
             const storageRef = ref(storage, `products/${Date.now()}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
@@ -31,27 +49,34 @@ const AddProduct = () => {
                 setUploadProgress(progress)  }, 
               (error) => {toast.error(error.message) }, 
               () => {  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        arr.push(downloadURL)
+                        setNewImages((prevImages)=>[...prevImages,downloadURL])
                 });  } );
-        })
-      setProduct({...product,image:arr})
-      
-    }
+        })       }
 
     let handleSubmit=async(event)=>{
         event.preventDefault(); 
+      if(!id){
         try{ const docRef = collection(db,"products")
-            await addDoc(docRef,{...product,createdAt:Timestamp.now().toMillis()})
+            await addDoc(docRef,{...product,image:newImages,createdAt:Timestamp.now().toMillis()})
             toast.success("product added")
             navigate('/admin/view/product') }
         catch(error){toast.error(error.message)} 
+      }
+      else {
+        let images = [...oldImages , ...newImages] 
+        try{ const docRef = doc(db,"products",id)
+            await setDoc(docRef,{...product,image:images, createdAt:productEdit.createdAt,editedAt:Timestamp.now().toMillis()})
+            toast.success("product updated")
+            navigate('/admin/view/product') }
+        catch(error){toast.error(error.message)} 
+      }
     
     }
 
   return (
    <>
     <Container className='shadow mt-2 p-2'>
-             <h1>Add Product</h1> <hr/>
+             <h1>{id? "Edit ":"Add "} Product</h1> <hr/>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className='mb-2'>
                     <Form.Label >Category</Form.Label>
@@ -91,11 +116,18 @@ const AddProduct = () => {
                     <Form.Label>Choose File</Form.Label>
                     <Form.Control type="file" name="image" onChange={handleImage} multiple></Form.Control>
                 </Form.Group>
+                {id && <>
+                    {oldImages.map((im,i)=><>
+                    <img src={im} className='border-3' height={60} width={60}/>
+                    <span className='me-4' onClick={()=>removeImage(im,i)} style={{position:'relative',top:'-30px',cursor:'pointer'}}>X</span>
+                    </>)}
+                </>}
+             
                 <Form.Group className='mb-2'>
                     <Form.Label>Description</Form.Label>
                     <Form.Control as="textarea" name="desc" onChange={(e)=>setProduct({...product,desc:e.target.value})} value={product.desc}></Form.Control>
                 </Form.Group>
-                <Button type="submit">Add Product</Button>
+                <Button type="submit">{id? "Update" : "Add Product"}</Button>
             </Form>
     </Container>
  
