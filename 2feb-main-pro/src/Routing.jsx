@@ -15,6 +15,9 @@ import AddCategory from "./features/Admin/AddCategory"
 import ViewCategory from "./features/Admin/ViewCategory"
 import AddProduct from "./features/Admin/AddProduct"
 import ViewProduct from "./features/Admin/ViewProduct"
+import ProductDetails from "./features/ProductDetails"
+import Checkout from "./features/Checkout"
+import CheckoutPayment from "./features/CheckoutPayment"
 
 const router = createBrowserRouter([
     {path:'/',element:<DefaultLayout><App/></DefaultLayout>,
@@ -23,11 +26,14 @@ const router = createBrowserRouter([
         {path:'login',element:<Login/>},
         {path:'register',element:<Register/>},
         {path:'products',element:<ProductList/>},
+        {path:'product-details/:id',element:<ProductDetails/>},
         {path:'cart',element:<Cart/>},
         {path:'checkout-details',element:<Protected><CheckoutDetails/></Protected>},
+        {path:'checkout',element:<Protected><Checkout/></Protected>},
+        {path:'checkout-payment',element:<Protected><CheckoutPayment/></Protected>},
  ]},
     {path:'/admin',element:<ProtectedAdmin><AdminLayout/></ProtectedAdmin>,
-        children:[
+        children:[  
             {path:'dash',element:<AdminDash/>},
             {path:'add/category',element:<AddCategory/>},
             {path:'view/category',element:<ViewCategory/>},

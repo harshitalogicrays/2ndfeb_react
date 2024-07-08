@@ -16,8 +16,11 @@ const Cart = () => {
     const url=window.location.href
     const navigate=useNavigate()
     let handleCheckout=()=>{
-        if(isLoggedIn){
+        if(isLoggedIn && cart.length !=0){
             navigate('/checkout-details')
+        }
+        else if(isLoggedIn && cart.length ==0){
+            navigate('/cart')
         }
         else{
             dispatch(SAVE_URL(url))

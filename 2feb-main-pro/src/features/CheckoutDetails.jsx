@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import CheckoutSummary from './CheckoutSummary'
+import { useNavigate } from 'react-router-dom'
 
 const CheckoutDetails = () => {
   let [shippingAddress,setShippingAddress]=useState({name:'',email:'',mobile:'',city:'',address:'',pincode:''})
+  const navigate=useNavigate()
   let handleSubmit=(e)=>{
     e.preventDefault()
     // alert(JSON.stringify(shippingAddress))
     sessionStorage.setItem("shippingAddress",JSON.stringify(shippingAddress))
+    navigate('/checkout')
   }
 
   useEffect(()=>{
