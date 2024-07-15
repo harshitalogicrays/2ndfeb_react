@@ -118,6 +118,7 @@ const cartItems =useSelector(selectCartItems)
               }}>Register</Nav.Link>
             </ShowOnLogout>
             <ShowOnLogin>
+              {role=='1' && <Nav.Link as={NavLink} to='/myorders'>My Orders</Nav.Link>}
               <Nav.Link href="#home">Welcome {username}</Nav.Link>
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
             </ShowOnLogin>

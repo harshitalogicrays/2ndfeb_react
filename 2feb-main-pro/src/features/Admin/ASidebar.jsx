@@ -11,6 +11,7 @@ const links = [
   {link:NavLink , to:'/admin/view/category' , name:'View Category' },
   {link:NavLink , to:'/admin/add/product' , name:'Add Product' },
   {link:NavLink , to:'/admin/view/product' , name:'View Product' },
+  {link:NavLink , to:'/admin/view/orders' , name:'Orders' },
 ]
   return (
    <Nav  className="flex-column ">

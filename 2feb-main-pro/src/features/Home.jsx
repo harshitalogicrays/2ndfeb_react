@@ -1,7 +1,7 @@
 
 import React from 'react'
 import Slider from './Slider'
-import { saveorder } from './hiddenlinks'
+import ProductList from './ProductList'
 
 const Home = () => {
 
@@ -9,7 +9,7 @@ const Home = () => {
    <>
     <Slider/>
     <hr/>
-    <h1>Home Page</h1>
+    <ProductList/>
    </>
   )
 }

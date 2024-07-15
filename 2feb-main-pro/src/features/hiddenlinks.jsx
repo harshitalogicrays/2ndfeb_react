@@ -51,7 +51,7 @@ import { db } from "../firebase/config";
     let orderTime=today.toLocaleTimeString()
     try{
       const docRef = collection(db,"orders")
-      let orderConfig={ userEmail,userId,cartItems,totalAmount,shippingAddress,orderDate,orderTime,orderStatus:"Placed",createdAt:Timestamp.now().toMillis(),payment_mode}
+      let orderConfig={ userEmail,userId,cartItems,totalAmount,shippingAddress,orderDate,orderTime,orderStatus:"Pending",createdAt:Timestamp.now().toMillis(),payment_mode}
       console.log(orderConfig)
       await addDoc(docRef,orderConfig)
       toast.success("order placed")
@@ -61,6 +61,7 @@ import { db } from "../firebase/config";
   }
 
   export let sendmail=(orderConfig)=>{
+    console.log(orderConfig)
     fetch("http://localhost:1000/sendmail", {
      method: "POST",
      headers: { "Content-Type": "application/json" },

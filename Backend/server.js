@@ -51,7 +51,7 @@ app.post('/sendmail',async(req,res)=>{
       to: email,
       subject: `your order has been ${status}`, 
       text:  `Hello ${name}`, 
-      html: `<b>Thank you for ordering from us </b><br> Amount = ${amount}<br/>
+      html: `Hello ${name}<br/><b>Thank you for ordering from us </b><br> Amount = ${amount}<br/>
               Order Status : ${status}<br/>
               Payment:${payment}<br/>
               Thank You<br/>Admin `, 

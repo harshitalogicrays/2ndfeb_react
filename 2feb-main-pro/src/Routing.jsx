@@ -18,6 +18,10 @@ import ViewProduct from "./features/Admin/ViewProduct"
 import ProductDetails from "./features/ProductDetails"
 import Checkout from "./features/Checkout"
 import CheckoutPayment from "./features/CheckoutPayment"
+import MyOrders from "./features/MyOrders"
+import MyOrderDetails from "./features/MyOrderDetails"
+import Orders from "./features/Admin/Orders"
+import OrderDetails from "./features/Admin/OrderDetails"
 
 const router = createBrowserRouter([
     {path:'/',element:<DefaultLayout><App/></DefaultLayout>,
@@ -31,6 +35,8 @@ const router = createBrowserRouter([
         {path:'checkout-details',element:<Protected><CheckoutDetails/></Protected>},
         {path:'checkout',element:<Protected><Checkout/></Protected>},
         {path:'checkout-payment',element:<Protected><CheckoutPayment/></Protected>},
+        {path:'myorders',element:<Protected><MyOrders/></Protected>},
+        {path:'myorders/details/:id',element:<Protected><MyOrderDetails/></Protected>},
  ]},
     {path:'/admin',element:<ProtectedAdmin><AdminLayout/></ProtectedAdmin>,
         children:[  
@@ -41,6 +47,8 @@ const router = createBrowserRouter([
             {path:'add/product',element:<AddProduct/>},
             {path:'edit/product/:id',element:<AddProduct/>},
             {path:'view/product',element:<ViewProduct/>},
+            {path:'view/orders',element:<Orders/>},
+            {path:'orders/details/:id',element:<OrderDetails/>},
         ]},
     {path:'*',element:<Pagenotfound/>},
 ])
