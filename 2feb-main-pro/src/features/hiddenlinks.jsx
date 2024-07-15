@@ -62,7 +62,7 @@ import { db } from "../firebase/config";
 
   export let sendmail=(orderConfig)=>{
     console.log(orderConfig)
-    fetch("http://localhost:1000/sendmail", {
+    fetch("https://2ndfeb-react-server.vercel.app/sendmail", {
      method: "POST",
      headers: { "Content-Type": "application/json" },
      body: JSON.stringify({ email:orderConfig.userEmail,status:orderConfig.status,amount:orderConfig.totalAmount,name:orderConfig.userName ,payment:orderConfig.payment_mode}),
